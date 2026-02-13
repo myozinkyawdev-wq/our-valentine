@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentine?</title>
+  <style>
+    :root {
+      --card-bg: rgba(255, 255, 255, .92);
+      --shadow: 0 14px 40px rgba(0, 0, 0, .16);
+      --pink: #ff4d6d;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 10%, #ffe6ee, #fff0f6 45%, #fff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    #hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      top: -10vh;
+      font-size: clamp(16px, 2.2vw, 28px);
+      opacity: .9;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .12));
+      animation: fall linear forwards;
+      will-change: transform, opacity;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, -15vh, 0) rotate(0deg);
+        opacity: 0;
+      }
+
+      8% {
+        opacity: .95;
+      }
+
+      100% {
+        transform: translate3d(var(--drift), 115vh, 0) rotate(var(--spin));
+        opacity: 0;
+      }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: min(520px, 100%);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3.2vw, 28px);
+      text-align: center;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(22px, 3.8vw, 34px);
+      line-height: 1.15;
+    }
+
+    p {
+      margin: 0 0 16px;
+      font-size: clamp(14px, 2.6vw, 16px);
+      opacity: .85;
+    }
+
+    .btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      position: relative;
+      z-index: 5;
+    }
+
+    button {
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 16px;
+      cursor: pointer;
+      min-width: 140px;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      user-select: none;
+      touch-action: manipulation;
+      position: relative;
+      z-index: 6;
+    }
+
+    button:active {
+      transform: scale(.98);
+    }
+
+    #yes {
+      background: var(--pink);
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(255, 77, 109, .35);
+    }
+
+    #yes:hover {
+      transform: translateY(-1px);
+    }
+
+    #no {
+      background: #f1f1f1;
+      color: #222;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, .08);
+    }
+
+    .result {
+      display: none;
+      margin-top: 14px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, .14);
+      background: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .result .photo-frame {
+      width: 100%;
+      height: clamp(220px, 38vw, 320px);
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .result img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .caption {
+      padding: 12px 14px;
+      font-size: clamp(16px, 3.4vw, 20px);
+      font-weight: 800;
+      color: #111;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(255, 235, 242, .98));
+      letter-spacing: .2px;
+      line-height: 1.25;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .9);
+      border-top: 1px solid rgba(0, 0, 0, .06);
+    }
+
+    .caption::before {
+      content: "💬";
+      display: inline-block;
+      margin-right: 8px;
+      transform: translateY(1px);
+    }
+
+    @media (min-width: 900px) {
+      .card {
+        padding: 30px;
+      }
+
+      button {
+        min-width: 160px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .heart {
+        animation: none;
+        display: none;
+      }
+
+      * {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="hearts" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="card" id="card">
+      <h1>Bi, Will you be my Valentine? 💖</h1>
+      <p id="msg">Choose wisely... 😄</p>
+
+      <div class="btns" id="btns">
+        <button id="yes">YES 💘</button>
+        <button id="no">No 🙈</button>
+      </div>
+
+      <div class="result" id="result">
+        <div class="photo-frame">
+          <img id="photo" alt="Our photo" src="assets/yayyyyy.jpg">
+        </div>
+        <div class="caption" id="caption">YAYYYYYY....!! 💞 Bi, You just made my day 🥰</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // ---------- EmailJS CONFIG ----------
+    // 1) Create EmailJS account
+    // 2) Create service (ex: service_xxx)
+    // 3) Create 2 templates:
+    //    - template_to_her
+    //    - template_to_me
+    // 4) Put your IDs below
+
+    const EMAILJS_PUBLIC_KEY = "D0ubMpAOUNMJ34xi6";
+    const EMAILJS_SERVICE_ID = "service_3u7ul78";
+    const TEMPLATE_TO_HER = "template_dcyfo3t";
+    const TEMPLATE_TO_ME = "template_g3n5xbo";
+
+    // (Optional) set these now or later
+    const HER_EMAIL = "thinnandarhsu99@gmail.com";  // change later
+    // const HER_EMAIL = "myozinkyaw103@gmail.com";  // change later
+    const MY_EMAIL = "myozinkyaw.dev@gmail.com";   // change later
+
+    // init EmailJS
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+    async function sendYesEmails() {
+      const timeStr = new Date().toLocaleString();
+
+      // ✅ variables for HER template (uses to_her_email)
+      const varsToHer = {
+        to_her_email: HER_EMAIL,
+        to_reply_email: MY_EMAIL,
+        to_name: "Bi",
+        from_name: "Your Valentine 💖",
+        subject: "Happy Valentine’s Day 💘",
+        message: `Bi 💖
+            I’m so happy you said YES 😭💞
+            Thank you for being my Valentine 💘✨
+
+            I love you more than words can say 🥰❤️
+
+            ကောင်မလေး ဘီဘီလေးရေ 🥺💗 ကိုတို့တွေအခက်အခဲတွေကို အတိုင်းအတာ တစ်ခုထိကျော်ဖြတ်ခဲ့ကြပြီးပြီနော် 💪✨
+            ကိုဘီ့ကို ချစ်တယ် 😘❤️ ဘယ်လို အခက်အခဲတွေရှ့ဆက်ပြီး ကိုတို့ကြုံလာရပါစေ 🌧️⛈️ ကိုလေ ဘီ့ကိုဘဲရွှေးချယ်မယ် 💍💞
+
+            ဘီစားချင်တဲ့ ချိပုချိလည်း ကိုတို့တစ်ရက်သွားစားကြမယ် 🍽️🥰
+            ဘီစားချင်တာတွေ ကိုဝယ်ကျွေးမယ် 🛍️🍫🍓
+            ဘီဖြစ်ချင်တာတွေ ကိုလုပ်ပေးမယ် 🌟🤍
+            ဘီစိုက်စေချင်တဲ့ နှင်းဆီပန်းအဖြူလေးတွေလည်း ကိုစိုက်ပေးမယ် 🌹🤍🌿
+
+            Shark တွေအများကြီးမသောက်ပါနဲ့ကွာ 🥺🍻🚫
+            ရှေ့လျှောက် ကိုတို့တွေအတူတူ ကျန်းမာရေးကို အများကြီးဂရုစိုက်မယ် 🏃‍♂️🏃‍♀️💚🥗
+
+            ချစ်ရတဲ့ဘီလေးရေ 😚💕 ဒီနှစ် valentine အတူမဖြတ်သန်းလိုက်ရပေမယ့် 😢💔
+            နောက်နှစ်တော့ ကိုတို့အတူရှိရအောင် ပိုကြိုးစားကြမယ်နော် 🗓️✨🤝💞
+
+            ကိုနဲ့အတူတူကြိုးစားပေးတဲ့ ဘီ့ကို အရမ်းကျေးဇူးတင်တယ် 🙏🥺❤️
+            အဲ့တွက်ကို ခုထက်ပိုပြီးကြိုးစားမယ် 💪🔥
+
+            ဘီ့ကိုလည်းကျေးဇူးတင်တယ် 🥰💗
+            ဘီနဲ့အတူတူရှိနေဖို့ ဖန်တီးပေးတဲ့ အကြောင်းအရာတိုင်းကို ကိုကျေးဇူးတင်တယ် ✨🫶💞          
+          `,
+        time: timeStr,
+      };
+
+      // ✅ variables for ME template (uses to_me_email)
+      const varsToMe = {
+        to_me_email: MY_EMAIL,
+        to_reply_email: HER_EMAIL,
+        to_name: "Me",
+        from_name: "Valentine Page 💌",
+        subject: "She clicked YES 💘",
+        message: `She clicked YES 💞
+Her email: ${HER_EMAIL}
+Time: ${timeStr}`,
+        time: timeStr,
+      };
+
+      // send separately (clear & safe)
+      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_TO_HER, varsToHer);
+      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_TO_ME, varsToMe);
+    }
+
+    // ---------- Heart rain ----------
+    const heartsLayer = document.getElementById('hearts');
+    const heartEmojis = ["💗", "💖", "💘", "💝", "💞", "💕", "❤️"];
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function spawnHeart() {
+      if (isReduced) return;
+
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+      const left = Math.random() * 100;
+      const duration = 4 + Math.random() * 4;
+      const drift = (Math.random() * 40 - 20) + 'vw';
+      const spin = (Math.random() * 540 - 270) + 'deg';
+      const size = 16 + Math.random() * 18;
+
+      heart.style.left = left + 'vw';
+      heart.style.setProperty('--drift', drift);
+      heart.style.setProperty('--spin', spin);
+      heart.style.fontSize = size + 'px';
+      heart.style.animationDuration = duration + 's';
+
+      heartsLayer.appendChild(heart);
+      heart.addEventListener('animationend', () => heart.remove());
+    }
+
+    setInterval(spawnHeart, 180);
+    for (let i = 0; i < 18; i++) setTimeout(spawnHeart, i * 90);
+
+    // ---------- Valentine interaction ----------
+    const msg = document.getElementById('msg');
+    const noBtn = document.getElementById('no');
+    const yesBtn = document.getElementById('yes');
+    const result = document.getElementById('result');
+    const btns = document.getElementById('btns');
+    const photo = document.getElementById('photo');
+    const caption = document.getElementById('caption');
+
+    // ✅ Ordered 1 -> 5 (loop)
+    const noReactions = [
+      { src: "assets/no/1.jpg", text: "Aww… don’t say NO 😭💔  (Try YES 💘)" },
+      { src: "assets/no/2.jpg", text: "NO is not allowed 😤😂  (Press YES please!)" },
+      { src: "assets/no/3.jpg", text: "Come onnn… be my Valentine 🥺💞" },
+      { src: "assets/no/4.jpg", text: "You’re teasing me 😆💗  (YES is the right answer!)" },
+      { src: "assets/no/5.jpg", text: "Okay okay… last chance 😭👉  Tap YES 💘" },
+    ];
+
+    noReactions.forEach(r => { const img = new Image(); img.src = r.src; });
+
+    let noIndex = 0;
+    let dodges = 0;
+
+    function hideChooseWisely() {
+      // hide label once she interacts (NO hover/tap or YES click)
+      msg.style.display = "none";
+    }
+
+    function showNextNoReaction() {
+      result.style.display = "block";
+      const pick = noReactions[noIndex];
+      photo.src = pick.src;
+      caption.textContent = pick.text;
+      noIndex = (noIndex + 1) % noReactions.length;
+    }
+
+    function dodge() {
+      dodges++;
+      hideChooseWisely();
+
+      if (noReactions.length) showNextNoReaction();
+
+      const card = document.getElementById('card');
+      const rect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = Math.max(40, rect.width - btnRect.width - 40);
+      const maxY = Math.max(40, rect.height - btnRect.height - 120);
+
+      const x = (Math.random() * maxX) - (maxX / 2);
+      const y = (Math.random() * maxY) - (maxY / 2);
+
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+      // keep button above result
+      noBtn.style.zIndex = 10;
+    }
+
+    noBtn.addEventListener('mouseover', dodge);
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      dodge();
+    }, { passive: false });
+
+    yesBtn.addEventListener('click', async () => {
+      hideChooseWisely();
+
+      // UI update first
+      btns.style.display = "none";
+      result.style.display = "block";
+      photo.src = "assets/yes/yes.jpg";
+      caption.textContent = "YAY!! 💞 You just made my day 🥰";
+
+      for (let i = 0; i < 25; i++) setTimeout(spawnHeart, i * 60);
+
+      // Send emails
+      try {
+        await sendYesEmails();
+        caption.textContent = "YAY!! 💞 You just made my day 🥰 (Email sent 💌)";
+      } catch (err) {
+        console.error(err);
+        caption.textContent = "YAY!! 💞 You just made my day 🥰 (Email failed 😭)";
+      }
+    });
+  </script>
+
+</body>
+
+</html>

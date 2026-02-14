@@ -224,87 +224,8 @@
       </div>
     </div>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  
   <script>
-    // ---------- EmailJS CONFIG ----------
-    // 1) Create EmailJS account
-    // 2) Create service (ex: service_xxx)
-    // 3) Create 2 templates:
-    //    - template_to_her
-    //    - template_to_me
-    // 4) Put your IDs below
-
-    const EMAILJS_PUBLIC_KEY = "D0ubMpAOUNMJ34xi6";
-    const EMAILJS_SERVICE_ID = "service_3u7ul78";
-    const TEMPLATE_TO_HER = "template_dcyfo3t";
-    const TEMPLATE_TO_ME = "template_g3n5xbo";
-
-    // (Optional) set these now or later
-    const HER_EMAIL = "thinnandarhsu99@gmail.com";  // change later
-    // const HER_EMAIL = "myozinkyaw103@gmail.com";  // change later
-    const MY_EMAIL = "myozinkyaw.dev@gmail.com";   // change later
-
-    // init EmailJS
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
-    async function sendYesEmails() {
-      const timeStr = new Date().toLocaleString();
-
-      // ✅ variables for HER template (uses to_her_email)
-      const varsToHer = {
-        to_her_email: HER_EMAIL,
-        to_reply_email: MY_EMAIL,
-        to_name: "Bi",
-        from_name: "Your Valentine 💖",
-        subject: "Happy Valentine’s Day 💘",
-        message: `Bi 💖
-            I’m so happy you said YES 😭💞
-            Thank you for being my Valentine 💘✨
-
-            I love you more than words can say 🥰❤️
-
-            ကောင်မလေး ဘီဘီလေးရေ 🥺💗 ကိုတို့တွေအခက်အခဲတွေကို အတိုင်းအတာ တစ်ခုထိကျော်ဖြတ်ခဲ့ကြပြီးပြီနော် 💪✨
-            ကိုဘီ့ကို ချစ်တယ် 😘❤️ ဘယ်လို အခက်အခဲတွေရှ့ဆက်ပြီး ကိုတို့ကြုံလာရပါစေ 🌧️⛈️ ကိုလေ ဘီ့ကိုဘဲရွှေးချယ်မယ် 💍💞
-
-            ဘီစားချင်တဲ့ ချိပုချိလည်း ကိုတို့တစ်ရက်သွားစားကြမယ် 🍽️🥰
-            ဘီစားချင်တာတွေ ကိုဝယ်ကျွေးမယ် 🛍️🍫🍓
-            ဘီဖြစ်ချင်တာတွေ ကိုလုပ်ပေးမယ် 🌟🤍
-            ဘီစိုက်စေချင်တဲ့ နှင်းဆီပန်းအဖြူလေးတွေလည်း ကိုစိုက်ပေးမယ် 🌹🤍🌿
-
-            Shark တွေအများကြီးမသောက်ပါနဲ့ကွာ 🥺🍻🚫
-            ရှေ့လျှောက် ကိုတို့တွေအတူတူ ကျန်းမာရေးကို အများကြီးဂရုစိုက်မယ် 🏃‍♂️🏃‍♀️💚🥗
-
-            ချစ်ရတဲ့ဘီလေးရေ 😚💕 ဒီနှစ် valentine အတူမဖြတ်သန်းလိုက်ရပေမယ့် 😢💔
-            နောက်နှစ်တော့ ကိုတို့အတူရှိရအောင် ပိုကြိုးစားကြမယ်နော် 🗓️✨🤝💞
-
-            ကိုနဲ့အတူတူကြိုးစားပေးတဲ့ ဘီ့ကို အရမ်းကျေးဇူးတင်တယ် 🙏🥺❤️
-            အဲ့တွက်ကို ခုထက်ပိုပြီးကြိုးစားမယ် 💪🔥
-
-            ဘီ့ကိုလည်းကျေးဇူးတင်တယ် 🥰💗
-            ဘီနဲ့အတူတူရှိနေဖို့ ဖန်တီးပေးတဲ့ အကြောင်းအရာတိုင်းကို ကိုကျေးဇူးတင်တယ် ✨🫶💞          
-          `,
-        time: timeStr,
-      };
-
-      // ✅ variables for ME template (uses to_me_email)
-      const varsToMe = {
-        to_me_email: MY_EMAIL,
-        to_reply_email: HER_EMAIL,
-        to_name: "Me",
-        from_name: "Valentine Page 💌",
-        subject: "She clicked YES 💘",
-        message: `She clicked YES 💞
-Her email: ${HER_EMAIL}
-Time: ${timeStr}`,
-        time: timeStr,
-      };
-
-      // send separately (clear & safe)
-      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_TO_HER, varsToHer);
-      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_TO_ME, varsToMe);
-    }
-
     // ---------- Heart rain ----------
     const heartsLayer = document.getElementById('hearts');
     const heartEmojis = ["💗", "💖", "💘", "💝", "💞", "💕", "❤️"];
